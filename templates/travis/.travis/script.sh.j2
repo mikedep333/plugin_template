@@ -31,8 +31,11 @@ wait_for_pulp() {
   return 1
 }
 
+# Containers may take a long time to download & start.
+# See pulp-operator/.travis/pulp-operator-check-and-wait.sh
+wait_for_pulp 600
+
 if [ "$TEST" = 'docs' ]; then
-  sleep 5
   cd docs
   make html
   cd ..
@@ -113,10 +116,6 @@ show_logs_and_return_non_zero() {
 
     return "${rc}"
 }
-
-# Containers may take a long time to download & start.
-# See pulp-operator/.travis/pulp-operator-check-and-wait.sh
-wait_for_pulp 600
 
 # Run functional tests
 if [ -f $FUNC_TEST_SCRIPT ]; then
