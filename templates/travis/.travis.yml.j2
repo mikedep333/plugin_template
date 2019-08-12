@@ -37,9 +37,10 @@ install: .travis/install.sh
 before_script: .travis/before_script.sh
 script: .travis/script.sh
 after_failure:
-  - sh -c "cat ~/django_runserver.log"
-  - sh -c "cat ~/resource_manager.log"
-  - sh -c "cat ~/reserved_workers-1.log"
+  - sudo kubectl logs -l app=pulp-api --tail=10000
+  - sudo kubectl logs -l app=pulp-content --tail=10000
+  - sudo kubectl logs -l app=pulp-resource-manager --tail=10000
+  - sudo kubectl logs -l app=pulp-worker --tail=10000
 jobs:
   include:
 {% if deploy_to_pypi %}  - stage: deploy-plugin-to-pypi
