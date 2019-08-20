@@ -131,11 +131,13 @@ show_logs_and_return_non_zero() {
 }
 
 # Run functional tests
+set +u
 {% if plugin_name == 'pulpcore' %}
 export PYTHONPATH=$TRAVIS_BUILD_DIR:${PYTHONPATH}
 {% else %}
 export PYTHONPATH=$TRAVIS_BUILD_DIR:$TRAVIS_BUILD_DIR/../pulpcore:${PYTHONPATH}
 {% endif %}
+set -u
 if [ -f $FUNC_TEST_SCRIPT ]; then
     $FUNC_TEST_SCRIPT
 else
