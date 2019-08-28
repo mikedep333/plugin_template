@@ -127,8 +127,10 @@ show_logs_and_return_non_zero() {
   readonly local rc="$?"
 {%- if plugin_name == 'pulp_rpm' %}
   echo "container yum/dnf repos":
+  echo -en "travis_fold:start:$containerlog"'\\r'
   $CMD_PREFIX bash -c "ls -latr /etc/yum.repos.d/"
   $CMD_PREFIX bash -c "cat /etc/yum.repos.d/*"
+  echo -en "travis_fold:end:$containerlog"'\\r'
 {%- endif %}
   return "${rc}"
 }
